@@ -1,23 +1,11 @@
-// test1.cpp : Definiert den Einstiegspunkt für die Konsolenanwendung.
-//
-
-
 #include "stdafx.h"
-
-
-//int _tmain(int argc, _TCHAR* argv[])
-//{
-//  return 0;
-//}
-/* strtok example */
 #include <stdlib.h>
 #include <windows.h>
 #include <sstream>
 #include <string> 
 #include <string.h>
-//#include "Notify.h"
 
-
+using namespace System::Windows::Forms;
 
 #define BUF 255
 
@@ -39,72 +27,88 @@ char *getsline_number(int n, FILE *file)
 }
 
 double var(int pos)
-{
+{	   
+	char *lineneu[100];
+	char *pch;
+	char var[100][1000];
+	FILE *f;
+	unsigned int line = 1;
+	char *linenr;
+	int x=0;
+	try{  
+		f=fopen("myfile.json","r");
+	if(f == NULL)
+		{       
+			MessageBox::Show("Fehler beim öffnen der Quelldateien");
+			exit(0);
+		}
 	
-   //char line[100];
-   char *lineneu[100];
-   char *pch;
-   char var[100][1000];
-   FILE *f;
-   unsigned int line = 1;
-   char *linenr;
-   int x=0;
-
-  
-   f=fopen("C:\\Users\\Elvis\\Desktop\\myfile.json","r");
-   if(f == NULL)
-      {
-         //printf("Fehler beim Öffnen");
-		 Sleep(10000);
-         exit(0);
-      }
-
-	
-   for(int i = 0;i<=100;i++){
-   linenr=getsline_number(line, f);
-   if(linenr == NULL)
-      {
-         //fprintf(stderr, "Fehler beim Lesen der %d-ten Zeile??\n",line);
-		 //Sleep(1000000);
-         //exit(0);
-      }
-   
-   pch = strtok (linenr,"\"");
+		for(int i = 0;i<=100;i++){
+			linenr=getsline_number(line, f);		
+			pch = strtok (linenr,"\"");
 			while (pch != NULL)
-			{		 
-				
-				
-				pch = strtok (NULL, " \",\n{}");
-				
-				if (pch != '\0' && pch != ":"){
-				
-				
-					
-				
-				strcpy(var[x],pch);
-				
-				
-				x++;
-				
-				}
-				
-			}
-			
-   }
+			{	
+				pch = strtok (NULL, " \",\n{}");				
+				if (pch != '\0' && pch != ":")
+				{
+					strcpy(var[x],pch);
+					x++;			
+				}				
+			}			
+		}
  
-	double num;
-   
-  std::istringstream source( var[pos]); 
-   std::string token;
+		double num;
 
+		std::istringstream source( var[pos]); 
+		std::string token;
 
-while( getline( source, token, ',' ) ) {
-	std::istringstream ss( token );
-	ss >> num;}
+		while( getline( source, token, ',' ) ) {
+			std::istringstream ss( token );
+			ss >> num;
+		}
+		return num;
+		}catch(int a){
+		MessageBox::Show("Fehler beim öffnen der Quelldateien");
+	}
+}
 
+std::string gettime()
+{	
+	char *lineneu[100];
+	char *pch;
+	char var[100][1000];
+	FILE *f;
+	unsigned int line = 1;
+	char *linenr;
+	int x=0;
+	try{
+		f=fopen("myfile.json","r");
+		if(f == NULL)
+		{ 
+			MessageBox::Show("Fehler beim öffnen der Quelldateien");
+			exit(0);
+		}
 
-return num;
+	
+		for(int i = 0;i<=100;i++){
+			linenr=getsline_number(line, f);	
+			pch = strtok (linenr,"\"");
+			while (pch != NULL)
+			{	
+				pch = strtok (NULL, "\",\n{}");				
+				if (pch != '\0' && pch != ":")
+				{	
+					strcpy(var[x],pch);
+					x++;				
+				}				
+			}			
+		}
+ 
+	std::string b;
+	b=var[5];
 
-
-
+	return b;	
+	}catch(int a){
+		MessageBox::Show("Fehler beim öffnen der Quelldateien");
+	}
 }
