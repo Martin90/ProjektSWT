@@ -26,7 +26,7 @@ char *getsline_number(int n, FILE *file)
    return puffer; /*Zeile an Aufrufer zurück*/
 }
 
-double var(int pos)
+double readnumber(int pos)
 {	   
 	char *lineneu[100];
 	char *pch;
@@ -36,29 +36,29 @@ double var(int pos)
 	char *linenr;
 	int x=0;
 	try{  
-		f=fopen("myfile.json","r");
+		f=fopen("myfile.json","r"); // Datei myfile.json öffnen
 	if(f == NULL)
 		{       
 			MessageBox::Show("Fehler beim öffnen der Quelldateien");
 			exit(0);
 		}
 	
-		for(int i = 0;i<=100;i++){
-			linenr=getsline_number(line, f);		
-			pch = strtok (linenr,"\"");
-			while (pch != NULL)
-			{	
-				pch = strtok (NULL, " \",\n{}");				
-				if (pch != '\0' && pch != ":")
+		for(int i = 0;i<=100;i++){					// For schleife die die ersten 100 zeilen einliest
+			linenr=getsline_number(line, f);		// Hier werden die Zeilen gewechselt 
+			pch = strtok (linenr,"\"");				// Hier werden die Wörter
+			while (pch != NULL)						// und zahlen zwischen " und 
+			{										// ",Enter,Komma,Leer und
+				pch = strtok (NULL, " \",\n{}");	// den geschweiften Klammern
+				if (pch != '\0' && pch != ":")		// rauskopiert
 				{
-					strcpy(var[x],pch);
-					x++;			
+					strcpy(var[x],pch);				//Den String in einem Array speichern
+					x++;							//
 				}				
 			}			
 		}
  
 		double num;
-
+		// Umwandlung der Werte von String in double:
 		std::istringstream source( var[pos]); 
 		std::string token;
 
@@ -66,13 +66,14 @@ double var(int pos)
 			std::istringstream ss( token );
 			ss >> num;
 		}
+		//Rückgabe der double Werte
 		return num;
 		}catch(int a){
 		MessageBox::Show("Fehler beim öffnen der Quelldateien");
 	}
 }
 
-std::string gettime()
+std::string getstring(int postime)//Gibt den String des Labels zurueck
 {	
 	char *lineneu[100];
 	char *pch;
@@ -82,7 +83,7 @@ std::string gettime()
 	char *linenr;
 	int x=0;
 	try{
-		f=fopen("myfile.json","r");
+		f=fopen("myfile.json","r"); 
 		if(f == NULL)
 		{ 
 			MessageBox::Show("Fehler beim öffnen der Quelldateien");
@@ -103,12 +104,3 @@ std::string gettime()
 				}				
 			}			
 		}
- 
-	std::string b;
-	b=var[5];
-
-	return b;	
-	}catch(int a){
-		MessageBox::Show("Fehler beim öffnen der Quelldateien");
-	}
-}
