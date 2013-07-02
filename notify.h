@@ -1,6 +1,3 @@
-// download.cpp : Definiert den Einstiegspunkt für die Konsolenanwendung.
-//
-
 #include "stdafx.h"
 #include <tchar.h>
 #include <urlmon.h>
@@ -101,6 +98,7 @@ bool fileload()//Methode zum ersten Laden der Dateien
 	}
 }
 
+//Löschen der Überflüssigen Dateien
 void fileDelete()
 {
 	std::remove("myfile1.json");
